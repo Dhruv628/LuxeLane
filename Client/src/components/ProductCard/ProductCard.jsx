@@ -19,6 +19,7 @@ const ProductCard = ({ product }) => {
           style={{zIndex:0}} className={`bg-red-900 bg-opacity-15 flex justify-center items-center p-2`}>
         <LazyLoadImage
           src={product.image}
+          height={"160px"}
           onLoad={() => setLoading(false)}
           className="object-contain h-[160px]"
           style={{ height: "160px !important"}}
