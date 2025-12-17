@@ -20,8 +20,8 @@ const ProductCard = ({ product }) => {
         <LazyLoadImage
           src={product.image}
           onLoad={() => setLoading(false)}
-          className="object-contain max-h-[160px]"
-          style={{height: "160px !important"}}
+          className="object-contain h-[160px]"
+          style={{ height: "160px !important"}}
           alt="Not found"
         />
         {loading && (

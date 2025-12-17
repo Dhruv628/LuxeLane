@@ -28,25 +28,29 @@ async function updateProductImage() {
       "https://luxe-lane-backend.vercel.app/public/speaker1.png",
       "https://luxe-lane-backend.vercel.app/public/speaker2.png",
       "https://luxe-lane-backend.vercel.app/public/speaker3.png",
-      "https://luxe-lane-backend.vercel.app/public/speaker4.png"
+      "https://luxe-lane-backend.vercel.app/public/speaker4.png",
+      "https://luxe-lane-backend.vercel.app/public/speaker5.png"
     ],
     Earbuds: [
       "https://luxe-lane-backend.vercel.app/public/earbuds1.png",
       "https://luxe-lane-backend.vercel.app/public/earbuds2.png", 
       "https://luxe-lane-backend.vercel.app/public/earbuds3.png",
-      "https://luxe-lane-backend.vercel.app/public/earbuds4.png" 
+      "https://luxe-lane-backend.vercel.app/public/earbuds4.png", 
+      "https://luxe-lane-backend.vercel.app/public/earbuds5.png" 
     ],
     Headphones: [
       "https://luxe-lane-backend.vercel.app/public/headphone1.png",
       "https://luxe-lane-backend.vercel.app/public/headphone2.png",
       "https://luxe-lane-backend.vercel.app/public/headphone3.png",
       "https://luxe-lane-backend.vercel.app/public/headphone4.png",
+      "https://luxe-lane-backend.vercel.app/public/headphone5.png",
+      "https://luxe-lane-backend.vercel.app/public/headphone6.png",
     ]
   };
 
   try {
     for (const [category, images] of Object.entries(products)) {
-      const categoryProducts = await Product.find({ category }).limit(4);
+      const categoryProducts = await Product.find({ category }).limit(6);
       
       for (let i = 0; i < categoryProducts.length && i < images.length; i++) {
         await Product.findByIdAndUpdate(categoryProducts[i]._id, {
