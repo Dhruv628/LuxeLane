@@ -16,34 +16,48 @@ app.use('/public', express.static('public'))
 dotenv.config()
 const port=process.env.port || 4000
 
-function updateProductImage() {
-const products = {
-  Watches: [
-    "https://luxe-lane-backend.vercel.app/public/watch1.png", // Apple Watch
-    "https://luxe-lane-backend.vercel.app/public/watch2.png", // Apple Watch
-    "https://luxe-lane-backend.vercel.app/public/watch3.png", // Apple Watch
-    "https://luxe-lane-backend.vercel.app/public/watch4.png", // Apple Watch
-  ],
-  Speakers: [
-    "https://luxe-lane-backend.vercel.app/public/speaker1.png", // Bluetooth Speaker
-    "https://luxe-lane-backend.vercel.app/public/speaker2.png", // JBL Speaker
-    "https://luxe-lane-backend.vercel.app/public/speaker3.png", // Sonos Speaker
-    "https://luxe-lane-backend.vercel.app/public/speaker4.png"  // Portable Speaker
-  ],
-  Earbuds: [
-    "https://luxe-lane-backend.vercel.app/public/earbuds1.png",
-    "https://luxe-lane-backend.vercel.app/public/earbuds2.png", 
-    "https://luxe-lane-backend.vercel.app/public/earbuds3.png",
-    "https://luxe-lane-backend.vercel.app/public/earbuds4.png" 
-  ],
-  Headphones: [
-    "https://luxe-lane-backend.vercel.app/public/headphone1.png",
-    "https://luxe-lane-backend.vercel.app/public/headphone2.png", // Beats Headphonest
-    "https://luxe-lane-backend.vercel.app/public/headphone3.png", // Beats Headphonest
-    "https://luxe-lane-backend.vercel.app/public/headphone4.png",
-  ]
-};
+async function updateProductImage() {
+  const products = {
+    Watches: [
+      "https://luxe-lane-backend.vercel.app/public/watch1.png",
+      "https://luxe-lane-backend.vercel.app/public/watch2.png",
+      "https://luxe-lane-backend.vercel.app/public/watch3.png",
+      "https://luxe-lane-backend.vercel.app/public/watch4.png",
+    ],
+    Speakers: [
+      "https://luxe-lane-backend.vercel.app/public/speaker1.png",
+      "https://luxe-lane-backend.vercel.app/public/speaker2.png",
+      "https://luxe-lane-backend.vercel.app/public/speaker3.png",
+      "https://luxe-lane-backend.vercel.app/public/speaker4.png"
+    ],
+    Earbuds: [
+      "https://luxe-lane-backend.vercel.app/public/earbuds1.png",
+      "https://luxe-lane-backend.vercel.app/public/earbuds2.png", 
+      "https://luxe-lane-backend.vercel.app/public/earbuds3.png",
+      "https://luxe-lane-backend.vercel.app/public/earbuds4.png" 
+    ],
+    Headphones: [
+      "https://luxe-lane-backend.vercel.app/public/headphone1.png",
+      "https://luxe-lane-backend.vercel.app/public/headphone2.png",
+      "https://luxe-lane-backend.vercel.app/public/headphone3.png",
+      "https://luxe-lane-backend.vercel.app/public/headphone4.png",
+    ]
+  };
 
+  try {
+    for (const [category, images] of Object.entries(products)) {
+      const categoryProducts = await Product.find({ category }).limit(4);
+      
+      for (let i = 0; i < categoryProducts.length && i < images.length; i++) {
+        await Product.findByIdAndUpdate(categoryProducts[i]._id, {
+          image: images[i]
+        });
+      }
+    }
+    console.log("Product images updated successfully");
+  } catch (error) {
+    console.error("Error updating product images:", error);
+  }
 }
 
 //Routes
@@ -55,5 +69,7 @@ app.listen(port,()=>{
     console.log(`Backend started succesfully at http://localhost:${port}`)  
 })
 
-connectToDB();
+connectToDB().then(() => {
+  updateProductImage(); // Uncomment to update product images
+});
 
